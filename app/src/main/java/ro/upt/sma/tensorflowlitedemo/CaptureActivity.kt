@@ -40,12 +40,16 @@ class CaptureActivity : AppCompatActivity() {
                 val bitmap: Bitmap = fotoapparat.takePicture().toBitmap().await().bitmap
 
                 // TODO 1: Rescale the bitmap to INPUT_SIZE width and height using the Bitmap.createScaledBitmap method.
+                val bitmap2 = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
 
                 // TODO 2: Run the recognizer which will return the recognitions.
+                val recognitions = classifier.recognize(bitmap2)
 
                 withContext(Dispatchers.Main) {
                     // TODO 3: Show the recognitions using the common Toast widget. Make use of joinToString method to concat multiple items.
-
+                    Toast.makeText(applicationContext, recognitions.joinToString { recognition ->
+                        recognition.label + " " + recognition.confidence
+                    }, Toast.LENGTH_SHORT).show()
                 }
 
             }
